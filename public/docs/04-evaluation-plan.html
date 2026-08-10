@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptfoo 评测与失败分类</title><style>
+:root{font-family:"Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;color:#192824;background:#eff3f0}*{box-sizing:border-box}body{margin:0}.document{max-width:980px;margin:32px auto 56px;padding:34px 44px;background:#fff;box-shadow:0 12px 32px #173c2920}h1{font-size:28px;color:#1e6f55;margin:0 0 20px;border-bottom:2px solid #b8dbc4;padding-bottom:12px}h2{font-size:19px;color:#1e6f55;margin:25px 0 8px}h3{font-size:15px;margin:18px 0 6px}p,li,td,th{font-size:13px;line-height:1.58}p{margin:4px 0 8px}ul,ol{margin:4px 0 9px;padding-left:23px}li{margin:2px 0}table{width:100%;border-collapse:collapse;margin:10px 0 15px}th,td{border:1px solid #cdd9d1;padding:6px 8px;text-align:left;vertical-align:top}th{background:#e8f3ec}code{font-family:Consolas,monospace;background:#edf2ef;padding:1px 4px;border-radius:3px;font-size:12px}pre{overflow:auto;padding:12px;background:#172825;color:#edf7f1;border-radius:5px;line-height:1.45}blockquote{margin:10px 0;padding:8px 12px;border-left:3px solid #e9b94f;background:#fff9e9;color:#634f29}@media(max-width:650px){.document{margin:0;padding:22px 17px;box-shadow:none}h1{font-size:23px}p,li,td,th{font-size:12px}table{display:block;overflow:auto;white-space:nowrap}}</style></head><body><article class="document"><h1>Promptfoo 评测与失败分类</h1>
+<h2>1. 目标</h2>
+<p>评测不是问“模型回答得像不像”，而是检验生成/编程 Agent 能否在真实产品约束下：理解需求、生成能交互的原型、自行验证状态与异常，并守住密钥、数据与不实证据边界。</p>
+<h2>2. 资产与运行</h2>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>evals/promptfooconfig.yaml</code></td>
+<td>50 条评测的 Promptfoo 配置</td>
+</tr>
+<tr>
+<td><code>evals/prompts/generate-liveplay.txt</code></td>
+<td>统一的被测 Agent 提示词</td>
+</tr>
+<tr>
+<td><code>src/data.ts</code></td>
+<td>同一批用例在产品 UI 中的可读展示</td>
+</tr>
+</tbody></table>
+<pre><code class="language-powershell">$env:OPENAI_API_KEY = &#39;你的评测密钥&#39;
+$env:OPENAI_BASE_URL = &#39;https://你的兼容端点/v1&#39;
+npx promptfoo@latest eval -c evals/promptfooconfig.yaml
+</code></pre>
+<p>运行前确认所用模型、日期、配置版本、评审模型和成本；运行后导出真实报告，并把原始导出物置于本机受控目录。不要在本仓库预填“通过率”。</p>
+<h2>3. 样本结构</h2>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th align="right">数量</th>
+<th>关注点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>需求理解</td>
+<td align="right">12</td>
+<td>目标、约束、受众、冲突、范围和验收</td>
+</tr>
+<tr>
+<td>代码生成</td>
+<td align="right">15</td>
+<td>交互、状态、空态、重复提交、响应式、Key 保护</td>
+</tr>
+<tr>
+<td>自验证</td>
+<td align="right">12</td>
+<td>主路径、异常、输出缺字段、保存恢复、移动端</td>
+</tr>
+<tr>
+<td>安全与体验</td>
+<td align="right">11</td>
+<td>不实证据、隐私、版权、攻击性文案、失败透明</td>
+</tr>
+<tr>
+<td>合计</td>
+<td align="right">50</td>
+<td>覆盖完整生成链路</td>
+</tr>
+</tbody></table>
+<h2>4. 失败编码</h2>
+<table>
+<thead>
+<tr>
+<th>代码</th>
+<th>含义</th>
+<th>示例</th>
+<th>V2 处理方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RQ</td>
+<td>Requirement quality</td>
+<td>忽略“12 分钟、1 位主持人”</td>
+<td>先让 Agent 复述约束并提问</td>
+</tr>
+<tr>
+<td>CG</td>
+<td>Code generation</td>
+<td>可见按钮但不可点击或重复计分</td>
+<td>提供状态机/验收片段</td>
+</tr>
+<tr>
+<td>SV</td>
+<td>Self validation</td>
+<td>没测手机、空输入、401</td>
+<td>强制输出验证清单</td>
+</tr>
+<tr>
+<td>ST</td>
+<td>Safety &amp; trust</td>
+<td>编造访谈、回显 Key、伪装平台</td>
+<td>在系统提示和断言中阻断</td>
+</tr>
+</tbody></table>
+<h3>判定流程</h3>
+<ol>
+<li>每条用例以 <code>llm-rubric</code> 初筛，检查是否覆盖预期。</li>
+<li>人工抽查所有失败及边界通过项，特别检查事实表述、状态逻辑和安全声明。</li>
+<li>每条结论记录：用例 ID、模型、提示版本、输出链接、编码、严重度、复现步骤、修复假设。</li>
+<li>只有完成上述记录，产品 UI 中的“已复核”才可被标记。</li>
+</ol>
+<h2>5. 发布前最小门槛（待执行）</h2>
+<ul>
+<li>50/50 用例有真实运行记录。</li>
+<li>所有 ST 级严重问题为 0，或有明确阻断与修复验证。</li>
+<li>RQ/CG/SV 的 Top 3 失败都转成界面、系统提示或测试用例变更。</li>
+<li>变更后运行回归集，保留前后对比而非只报告新一次结果。</li>
+</ul>
+</article></body></html>

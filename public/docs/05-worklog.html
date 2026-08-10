@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>六周工作日志｜紧凑版</title><style>
+:root{font-family:"Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;color:#192824;background:#eff3f0}*{box-sizing:border-box}body{margin:0}.document{max-width:980px;margin:32px auto 56px;padding:34px 44px;background:#fff;box-shadow:0 12px 32px #173c2920}h1{font-size:28px;color:#1e6f55;margin:0 0 20px;border-bottom:2px solid #b8dbc4;padding-bottom:12px}h2{font-size:19px;color:#1e6f55;margin:25px 0 8px}h3{font-size:15px;margin:18px 0 6px}p,li,td,th{font-size:13px;line-height:1.58}p{margin:4px 0 8px}ul,ol{margin:4px 0 9px;padding-left:23px}li{margin:2px 0}table{width:100%;border-collapse:collapse;margin:10px 0 15px}th,td{border:1px solid #cdd9d1;padding:6px 8px;text-align:left;vertical-align:top}th{background:#e8f3ec}code{font-family:Consolas,monospace;background:#edf2ef;padding:1px 4px;border-radius:3px;font-size:12px}pre{overflow:auto;padding:12px;background:#172825;color:#edf7f1;border-radius:5px;line-height:1.45}blockquote{margin:10px 0;padding:8px 12px;border-left:3px solid #e9b94f;background:#fff9e9;color:#634f29}@media(max-width:650px){.document{margin:0;padding:22px 17px;box-shadow:none}h1{font-size:23px}p,li,td,th{font-size:12px}table{display:block;overflow:auto;white-space:nowrap}}</style></head><body><article class="document"><h1>六周工作日志｜紧凑版</h1>
+<p><strong>记录原则：</strong> 每天按 STAR 写“情境/任务/行动/结果”，同时注明工具与反思。没有发生的访谈、测试、发布或模型运行会标为“待执行”，不用计划替代事实。</p>
+<h2>第 1 周｜问题拆解与研究准备</h2>
+<table>
+<thead>
+<tr>
+<th>日</th>
+<th>STAR 与工具</th>
+<th>状态 / 反思</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>D1</td>
+<td>S：玩法策划常止于文案；T：定义可演示产品闭环；A：拆成 Brief、规则、微应用、评测、研究；R：形成产品机会图。工具：Markdown、Mermaid。</td>
+<td>已完成。反思：先定义“不能做什么”，避免把 Demo 写成平台产品。</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>S：目标岗位要求 AI 原型与 Agent 失败分析；T：核对真实公开岗位与开源参考；A：检索字节 AI 轻应用岗位、Promptfoo、DeerFlow；R：确定以可运行原型加评测为主线。工具：公开招聘页、GitHub。</td>
+<td>已完成。反思：参考角色能力，不复制企业内部流程或材料。</td>
+</tr>
+<tr>
+<td>D3</td>
+<td>S：需要 5 位有经验参与者；T：设计招募与同意流程；A：写招募标准、话术、退出与匿名规则；R：研究包初稿。工具：Markdown。</td>
+<td>已完成（研究准备）。反思：招募完成前不能称“已访谈”。</td>
+</tr>
+<tr>
+<td>D4</td>
+<td>S：访谈必须导向产品判断；T：压缩为 30 分钟问题流；A：用 STAR 区分事实、转述和解释；R：形成访谈记录模板。工具：Markdown。</td>
+<td>已完成（工具）。反思：不要为了印证产品而诱导问题。</td>
+</tr>
+<tr>
+<td>D5</td>
+<td>S：需要开始实访；T：招募 5 人并排期；A：准备 R01-R05 空记录位；R：执行状态保持待执行。工具：研究包。</td>
+<td>待执行（需真实参与者）。反思：宁可留白，也不使用虚构样本。</td>
+</tr>
+</tbody></table>
+<h2>第 2 周｜MVP PRD、流程与模板规则</h2>
+<table>
+<thead>
+<tr>
+<th>日</th>
+<th>STAR 与工具</th>
+<th>状态 / 反思</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>D6</td>
+<td>S：需求容易膨胀；T：圈定 MVP；A：写 P0/P1、非目标和发布门槛；R：PRD 可审阅。工具：Markdown、Mermaid。</td>
+<td>已完成。反思：不接账号、支付和真实数据，使一个人能完成验证。</td>
+</tr>
+<tr>
+<td>D7</td>
+<td>S：需要稳定生成结构；T：定义方案 schema；A：统一 title、summary、rules、口播、风险、实现 Brief；R：本地和 API 输出可共用。工具：TypeScript。</td>
+<td>已完成。反思：先定数据契约能减少 UI 分支。</td>
+</tr>
+<tr>
+<td>D8</td>
+<td>S：模板不能只是漂亮名称；T：沉淀三个可复用规则集；A：设计拼图、真知题、接力的触发、动作、反馈、边界；R：3 个模板规则表。工具：PRD。</td>
+<td>已完成。反思：每条规则都应能映射到界面状态。</td>
+</tr>
+<tr>
+<td>D9</td>
+<td>S：需要可讲清的原型；T：画出主路径与组件规范；A：输出 Figma 复画说明和移动端要求；R：流程文档。工具：Mermaid、CSS 设计变量。</td>
+<td>已完成。反思：先保证认知路径，再考虑装饰。</td>
+</tr>
+<tr>
+<td>D10</td>
+<td>S：缺少真实访谈结论；T：避免让假设进入 PRD；A：把指标标为待验证；R：PRD 中明确证据状态。工具：Markdown。</td>
+<td>已完成。反思：明确“不知道”是产品工作的组成。</td>
+</tr>
+</tbody></table>
+<h2>第 3 周｜Coding Agent 可运行 Demo 与模型接口</h2>
+<table>
+<thead>
+<tr>
+<th>日</th>
+<th>STAR 与工具</th>
+<th>状态 / 反思</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>D11</td>
+<td>S：需要快速验证结构；T：搭建 React 原型；A：用 Vite + TypeScript 建立项目；R：可启动骨架。工具：Vite、React。</td>
+<td>已完成。反思：减少依赖，优先保证新用户能运行。</td>
+</tr>
+<tr>
+<td>D12</td>
+<td>S：Brief 输入是主入口；T：实现三栏工作台；A：完成字段校验、模板选择、本地生成器；R：无 Key 可生成方案。工具：React、TypeScript。</td>
+<td>已完成。反思：本地生成是接口不可用时的产品回退，不是假模型。</td>
+</tr>
+<tr>
+<td>D13</td>
+<td>S：想法需要可点击证据；T：实现微应用；A：做一次性作答、分数/进度反馈和模板切换；R：主互动可演示。工具：React state。</td>
+<td>已完成。反思：可见的状态锁定比口头承诺“有交互”更可验证。</td>
+</tr>
+<tr>
+<td>D14</td>
+<td>S：用户需要复用；T：加入 Remix；A：仅在 localStorage 保存规则变体，排除 Key；R：刷新后可恢复。工具：Web Storage。</td>
+<td>已完成。反思：存储内容要和隐私边界一起设计。</td>
+</tr>
+<tr>
+<td>D15</td>
+<td>S：需接真实模型但不能暴露 Key；T：实现本机代理；A：Node HTTP 服务转发兼容 chat-completions；R：界面和 <code>.env</code> 都可配置。工具：Node.js、Fetch。</td>
+<td>已完成（接口实现）。反思：真实 Key 与真实调用结果仍待使用者配置后验证。</td>
+</tr>
+</tbody></table>
+<h2>第 4 周｜Promptfoo 评测与失败分类</h2>
+<table>
+<thead>
+<tr>
+<th>日</th>
+<th>STAR 与工具</th>
+<th>状态 / 反思</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>D16</td>
+<td>S：只看成功输出无法定位问题；T：搭建分类框架；A：定义 RQ/CG/SV/ST；R：四类失败编码。工具：Promptfoo 文档、Markdown。</td>
+<td>已完成。反思：分类要可驱动下一个修复动作。</td>
+</tr>
+<tr>
+<td>D17</td>
+<td>S：需求理解常被忽视；T：设计 12 条约束和歧义用例；A：覆盖受众、时长、范围、文化敏感；R：LP-01 至 LP-12。工具：YAML。</td>
+<td>已完成。反思：把“先澄清”也当成正确行为。</td>
+</tr>
+<tr>
+<td>D18</td>
+<td>S：微应用最易出现可见不可用；T：设计代码生成用例；A：覆盖状态、重复提交、空态、移动端、Key；R：LP-13 至 LP-27。工具：YAML。</td>
+<td>已完成。反思：高质量代码不等于高质量交互。</td>
+</tr>
+<tr>
+<td>D19</td>
+<td>S：Agent 可能跳过验证；T：设计自验证与安全用例；A：覆盖回归、401、部分 JSON、不实证据；R：LP-28 至 LP-50。工具：YAML。</td>
+<td>已完成。反思：失败透明应是验收项而非兜底文案。</td>
+</tr>
+<tr>
+<td>D20</td>
+<td>S：需要执行模型评测；T：配置评测环境并运行 50 条；A：提供命令、人工复核记录要求；R：当前待真实密钥和运行输出。工具：Promptfoo。</td>
+<td>待执行。反思：没有原始报告就不能写任何通过率。</td>
+</tr>
+</tbody></table>
+<h2>第 5 周｜无引导测试</h2>
+<table>
+<thead>
+<tr>
+<th>日</th>
+<th>STAR 与工具</th>
+<th>状态 / 反思</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>D21</td>
+<td>S：Demo 已可运行；T：设计无引导任务；A：要求用户完成模板、生成、预览、保存；R：任务卡与观察表。工具：Markdown。</td>
+<td>已完成（工具）。反思：任务描述不应泄露按钮位置。</td>
+</tr>
+<tr>
+<td>D22</td>
+<td>S：5 人测试需有一致记录；T：定义事件与失败编码；A：设计完成率、编辑率、阻塞步骤字段；R：模板可直接填写。工具：Markdown。</td>
+<td>已完成（工具）。反思：5 人样本用于发现问题，不能做大样本结论。</td>
+</tr>
+<tr>
+<td>D23</td>
+<td>S：需要保护参与者；T：确认观察员规则；A：规定前 10 分钟不提示、可随时退出；R：操作卡。工具：研究包。</td>
+<td>已完成（工具）。反思：帮助用户完成任务会污染无引导结果。</td>
+</tr>
+<tr>
+<td>D24</td>
+<td>S：需要真实新用户；T：招募 U01-U05；A：保留空席与记录目录；R：等待实际测试。工具：观察表。</td>
+<td>待执行。反思：不以本人或熟悉系统者替代新用户。</td>
+</tr>
+<tr>
+<td>D25</td>
+<td>S：需形成 V2；T：基于观察聚类问题；A：提供分析表；R：等待真实数据后排序。工具：Markdown。</td>
+<td>待执行。反思：无法先写“发现了哪些问题”。</td>
+</tr>
+</tbody></table>
+<h2>第 6 周｜V2、复盘、录屏与作品集</h2>
+<table>
+<thead>
+<tr>
+<th>日</th>
+<th>STAR 与工具</th>
+<th>状态 / 反思</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>D26</td>
+<td>S：需要把研究转为决策；T：制定 V2 优先级方法；A：按严重度、频次、主路径影响排序；R：复盘框架。工具：作品集案例。</td>
+<td>已完成（框架）。反思：V2 变更须能指向一条真实证据。</td>
+</tr>
+<tr>
+<td>D27</td>
+<td>S：作品集需可被复审；T：整理 PRD、流程、评测、研究和操作入口；A：链接全部材料；R：证据页。工具：Markdown、React。</td>
+<td>已完成。反思：作品集不是把过程堆在一起，而是让判断可追溯。</td>
+</tr>
+<tr>
+<td>D28</td>
+<td>S：面试官需要快速看到主路径；T：设计 5 分钟演示；A：写录屏脚本和检查表；R：可录制分镜。工具：录屏工具待选。</td>
+<td>已完成（脚本）。反思：录屏必须展示失败回退，不能只拍顺利路径。</td>
+</tr>
+<tr>
+<td>D29</td>
+<td>S：需要发布 V2；T：运行回归、发布并留证；A：准备发布清单；R：待真实研究和回归完成后执行。工具：GitHub、Promptfoo。</td>
+<td>待执行。反思：当前只发布 MVP 源码，不能宣称 V2 已发布。</td>
+</tr>
+<tr>
+<td>D30</td>
+<td>S：需要最终复盘；T：输出前后对比与学习；A：准备 STAR 作品集结构；R：等待真实研究、评测、录屏证据。工具：Markdown。</td>
+<td>待执行。反思：结论与数据必须一一对应。</td>
+</tr>
+</tbody></table>
+</article></body></html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LivePlay Lab｜产品概览</title><style>
+:root{font-family:"Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;color:#192824;background:#eff3f0}*{box-sizing:border-box}body{margin:0}.document{max-width:980px;margin:32px auto 56px;padding:34px 44px;background:#fff;box-shadow:0 12px 32px #173c2920}h1{font-size:28px;color:#1e6f55;margin:0 0 20px;border-bottom:2px solid #b8dbc4;padding-bottom:12px}h2{font-size:19px;color:#1e6f55;margin:25px 0 8px}h3{font-size:15px;margin:18px 0 6px}p,li,td,th{font-size:13px;line-height:1.58}p{margin:4px 0 8px}ul,ol{margin:4px 0 9px;padding-left:23px}li{margin:2px 0}table{width:100%;border-collapse:collapse;margin:10px 0 15px}th,td{border:1px solid #cdd9d1;padding:6px 8px;text-align:left;vertical-align:top}th{background:#e8f3ec}code{font-family:Consolas,monospace;background:#edf2ef;padding:1px 4px;border-radius:3px;font-size:12px}pre{overflow:auto;padding:12px;background:#172825;color:#edf7f1;border-radius:5px;line-height:1.45}blockquote{margin:10px 0;padding:8px 12px;border-left:3px solid #e9b94f;background:#fff9e9;color:#634f29}@media(max-width:650px){.document{margin:0;padding:22px 17px;box-shadow:none}h1{font-size:23px}p,li,td,th{font-size:12px}table{display:block;overflow:auto;white-space:nowrap}}</style></head><body><article class="document"><h1>LivePlay Lab｜产品概览</h1>
+<p><strong>产品一句话：</strong> 把直播/活动玩法 Brief 变成可运行浏览器微应用，并用规则模板、评测集和研究记录让方案可复用、可验证。</p>
+<h2>1. 产品机会</h2>
+<p>直播与校园活动的互动策划常见断点是：策划案能写，但主持人无法快速试跑；AI 能生成文案，但不一定理解时间、人力、体验和安全边界；上线后又没有办法说明失败究竟来自需求理解、代码生成，还是自验证缺失。LivePlay Lab 将产物缩小为一个可点击的浏览器微应用，再把生成过程放进结构化评测。</p>
+<h2>2. 核心用户与场景</h2>
+<table>
+<thead>
+<tr>
+<th>用户</th>
+<th>典型任务</th>
+<th>当前阻力</th>
+<th>LivePlay Lab 的回应</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>校园活动组织者</td>
+<td>12 分钟内设计迎新互动</td>
+<td>规则容易复杂，主持人难照着执行</td>
+<td>提供时长、人力、受众约束下的结构化方案与口播</td>
+</tr>
+<tr>
+<td>直播运营/内容创作者</td>
+<td>验证一个互动想法是否能跑通</td>
+<td>一次性文案无法展示真实反馈</td>
+<td>直接预览可点击的浏览器微应用</td>
+</tr>
+<tr>
+<td>AI 产品/原型实践者</td>
+<td>判断 Coding Agent 是否可靠</td>
+<td>只看“生成成功”无法定位失败</td>
+<td>50 条分类任务和人工复核状态</td>
+</tr>
+</tbody></table>
+<h2>3. 产品结构</h2>
+<pre><code class="language-mermaid">flowchart LR
+  A[玩法 Brief] --&gt; B[规则模板选择]
+  B --&gt; C[本地生成器 / 模型 API]
+  C --&gt; D[候选方案]
+  D --&gt; E[浏览器微应用]
+  D --&gt; F[Remix 本机库]
+  C --&gt; G[Promptfoo 评测]
+  E --&gt; H[真实用户研究记录]
+  G --&gt; I[失败分类与 V2 决策]
+  H --&gt; I
+</code></pre>
+<h2>4. 独创性与边界</h2>
+<p><strong>独创性：</strong> 不把“AI 生成活动方案”作为终点，而把“可复用规则 + 可运行状态机 + 可观测失败分类”设为同一产品的三个层级。每条候选玩法天然附带 Coding Agent 实现 Brief 和风险点，使产品判断可被工程验证。</p>
+<p><strong>边界：</strong></p>
+<ul>
+<li>当前是独立浏览器演示，未接入任何直播平台、账号、支付、私信或真实用户数据。</li>
+<li>本地生成器用于无密钥演示；真实模型只在使用者配置兼容 API 后通过本机服务调用。</li>
+<li>访谈、无引导测试、Promptfoo 真实运行和发布数据未执行时，均保持“待执行”。</li>
+</ul>
+<h2>5. 版本状态（2026-08-10）</h2>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>状态</th>
+<th>证据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>玩法工作台与本地方案</td>
+<td>已完成</td>
+<td><code>src/App.tsx</code>、<code>src/lib/generation.ts</code></td>
+</tr>
+<tr>
+<td>三个规则模板与 Remix</td>
+<td>已完成</td>
+<td><code>src/data.ts</code>、本机 localStorage</td>
+</tr>
+<tr>
+<td>浏览器互动微应用</td>
+<td>已完成</td>
+<td>工作台右栏，可点击验证反馈</td>
+</tr>
+<tr>
+<td>OpenAI 兼容模型代理</td>
+<td>已完成，待配置密钥</td>
+<td><code>server/index.mjs</code>、<code>.env.example</code></td>
+</tr>
+<tr>
+<td>50 条 Promptfoo 任务</td>
+<td>已完成，待真实运行</td>
+<td><code>evals/promptfooconfig.yaml</code></td>
+</tr>
+<tr>
+<td>5 人访谈与 5 人无引导测试</td>
+<td>待执行</td>
+<td><code>docs/03-research-package.md</code>、<code>docs/09-user-test-template.md</code></td>
+</tr>
+<tr>
+<td>V2 发布、录屏与作品集结果</td>
+<td>待执行</td>
+<td><code>docs/06-operations.md</code>、<code>docs/08-demo-recording-script.md</code></td>
+</tr>
+</tbody></table>
+<h2>6. 成功定义</h2>
+<p>在真实研究开始前，这些是<strong>待验证指标</strong>而非结果：</p>
+<ul>
+<li>新用户在无引导下完成“选择模板 -&gt; 生成 -&gt; 预览 -&gt; 保存 Remix”的完成率。</li>
+<li>用户主动编辑 Brief 或规则的比例，用于判断方案是否可控而非黑盒。</li>
+<li>Promptfoo 四类失败中，需求理解、自验证、安全体验三类的严重失败占比。</li>
+<li>主持人能否在不额外解释的情况下，把候选方案改成一段可用口播。</li>
+</ul>
+</article></body></html>

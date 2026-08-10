@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LivePlay Lab MVP PRD</title><style>
+:root{font-family:"Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;color:#192824;background:#eff3f0}*{box-sizing:border-box}body{margin:0}.document{max-width:980px;margin:32px auto 56px;padding:34px 44px;background:#fff;box-shadow:0 12px 32px #173c2920}h1{font-size:28px;color:#1e6f55;margin:0 0 20px;border-bottom:2px solid #b8dbc4;padding-bottom:12px}h2{font-size:19px;color:#1e6f55;margin:25px 0 8px}h3{font-size:15px;margin:18px 0 6px}p,li,td,th{font-size:13px;line-height:1.58}p{margin:4px 0 8px}ul,ol{margin:4px 0 9px;padding-left:23px}li{margin:2px 0}table{width:100%;border-collapse:collapse;margin:10px 0 15px}th,td{border:1px solid #cdd9d1;padding:6px 8px;text-align:left;vertical-align:top}th{background:#e8f3ec}code{font-family:Consolas,monospace;background:#edf2ef;padding:1px 4px;border-radius:3px;font-size:12px}pre{overflow:auto;padding:12px;background:#172825;color:#edf7f1;border-radius:5px;line-height:1.45}blockquote{margin:10px 0;padding:8px 12px;border-left:3px solid #e9b94f;background:#fff9e9;color:#634f29}@media(max-width:650px){.document{margin:0;padding:22px 17px;box-shadow:none}h1{font-size:23px}p,li,td,th{font-size:12px}table{display:block;overflow:auto;white-space:nowrap}}</style></head><body><article class="document"><h1>LivePlay Lab MVP PRD</h1>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>版本</td>
+<td>MVP 0.1</td>
+</tr>
+<tr>
+<td>产品负责人</td>
+<td>独立产品实践者</td>
+</tr>
+<tr>
+<td>文档状态</td>
+<td>可执行；用户研究与线上数据待补</td>
+</tr>
+<tr>
+<td>范围</td>
+<td>浏览器端互动方案生成、预览、Remix、评测与研究工具</td>
+</tr>
+</tbody></table>
+<h2>1. 问题与目标</h2>
+<p><strong>问题：</strong> 直播/活动互动策划在“想法 -&gt; 可演示原型 -&gt; 可复用规则 -&gt; 可靠性验证”之间断裂，导致 AI 输出难以复审，活动组织者也难以直接试跑。</p>
+<p><strong>MVP 目标：</strong> 让用户在一次浏览器会话内，输入一个 Brief，选择一个模板，拿到可编辑候选方案并在可点击微应用中验证主互动；同时把生成质量纳入 50 条任务的可复跑评测。</p>
+<p><strong>非目标：</strong> 不做真实平台直播推流、账户授权、评论抓取、支付、用户画像、真实排行榜或自动发布。</p>
+<h2>2. 用户故事与验收</h2>
+<table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>用户故事</th>
+<th>验收标准</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>P0</td>
+<td>作为活动组织者，我要输入主题和边界，快速获得一个可执行玩法</td>
+<td>主题与目标为空时阻止生成；方案含摘要、规则、口播、实现 Brief、风险点</td>
+</tr>
+<tr>
+<td>P0</td>
+<td>作为原型实践者，我要看到玩法是否真的有交互反馈</td>
+<td>三模板均可切换；主按钮只能提交一次；操作后出现进度或积分反馈</td>
+</tr>
+<tr>
+<td>P0</td>
+<td>作为用户，我要在无密钥时也能试用</td>
+<td>默认本地生成；断网可生成；模型失败时保留本地草案</td>
+</tr>
+<tr>
+<td>P0</td>
+<td>作为 AI 产品实践者，我要接入真实模型</td>
+<td>OpenAI 兼容端点、模型、Key 可配置；Key 不落 localStorage/Git</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>作为组织者，我要把有效方案保存为下次可用的变体</td>
+<td>保存名称、来源模板、规则；刷新后可在 Remix 库恢复</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>作为评测者，我要复核 50 个任务</td>
+<td>可筛选四类任务；可手动标记已复核；实际运行结果不预填</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>作为研究员，我要招募并记录真实参与者</td>
+<td>提供招募、同意、访谈和无引导测试表；不假造样本结论</td>
+</tr>
+</tbody></table>
+<h2>3. 端到端流程</h2>
+<pre><code class="language-mermaid">sequenceDiagram
+  participant U as 用户
+  participant W as 玩法工作台
+  participant G as 生成器/本机代理
+  participant P as 微应用预览
+  participant E as 评测与研究
+  U-&gt;&gt;W: 填写主题、目标、受众、时长、边界
+  U-&gt;&gt;W: 选择规则模板
+  W-&gt;&gt;G: 生成本地方案或请求模型
+  G--&gt;&gt;W: 候选方案 + 规则 + 实现 Brief
+  U-&gt;&gt;P: 点击互动并观察状态反馈
+  U-&gt;&gt;W: 保存为 Remix 或复制口播
+  U-&gt;&gt;E: 执行真实评测/研究后记录事实
+</code></pre>
+<h2>4. 信息架构</h2>
+<ol>
+<li><strong>玩法工作台：</strong> 三栏结构，依次是 Brief、候选方案、微应用预览。核心操作不超过一次滚动。</li>
+<li><strong>模板与 Remix：</strong> 三个预置模板的适用范围、核心规则和本机变体。</li>
+<li><strong>评测与负例：</strong> 50 条任务，按需求理解、代码生成、自验证、安全与体验分组。</li>
+<li><strong>用户研究：</strong> 5 个访谈与 5 个无引导测试的空记录位，绑定研究操作包。</li>
+<li><strong>作品集证据：</strong> 所有材料的入口和状态边界。</li>
+</ol>
+<h2>5. 关键规则</h2>
+<h3>5.1 本地方案生成</h3>
+<p>输入字段做空值回退，但点击生成时主题与目标必须存在。生成结构固定为：<code>title</code>、<code>summary</code>、<code>rules[]</code>、<code>hostScript</code>、<code>visualPrompt</code>、<code>riskNotes[]</code>、<code>codeBrief</code>。这样可以使本地方案和模型方案共用同一渲染与评测接口。</p>
+<h3>5.2 模型 API</h3>
+<ul>
+<li>协议：OpenAI-compatible <code>/chat/completions</code>。</li>
+<li>路径：浏览器 -&gt; <code>http://localhost:8788/api/generate</code> -&gt; 厂商端点。</li>
+<li>密钥：仅存在 React state 或本机 <code>.env</code>；<code>.env</code> 在 Git ignore 内。</li>
+<li>异常：服务不存在、401、非 JSON、字段残缺时，提示原因并保留本地方案。</li>
+</ul>
+<h3>5.3 模板规则</h3>
+<p>| 模板 | 触发条件 | 主动作 | 即时反馈 | 设计边界 |
+| --- | --- | --- | --- |
+| 关键词拼图 | 主题有可拆线索 | 弹幕/选项补词 | 锁定线索与积分 | 防止答案过宽、避免刷屏 |
+| 限时真知题 | 有可验证事实 | 真/假单选 | 倒计时、解释、连胜 | 题干无歧义、仅一次作答 |
+| 任务接力赛 | 有共同目标 | 加入一棒 | 全场进度推进 | 单步动作、阈值清晰、不过度收集信息 |</p>
+<h2>6. 埋点与研究口径（待执行）</h2>
+<p>不接第三方分析 SDK；真实测试时由观察员记录以下事件：</p>
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th>属性</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>brief_started</code></td>
+<td>是否修改默认值</td>
+<td>判断用户是否理解输入项</td>
+</tr>
+<tr>
+<td><code>plan_generated</code></td>
+<td>本地/模型、模板</td>
+<td>记录生成路径</td>
+</tr>
+<tr>
+<td><code>prototype_interacted</code></td>
+<td>模板、是否成功</td>
+<td>验证可点击主路径</td>
+</tr>
+<tr>
+<td><code>remix_saved</code></td>
+<td>模板、规则数</td>
+<td>观察复用意愿</td>
+</tr>
+<tr>
+<td><code>blocked</code></td>
+<td>步骤、失败原因</td>
+<td>形成 V2 优先级</td>
+</tr>
+</tbody></table>
+<h2>7. 发布门槛</h2>
+<ul>
+<li><code>npm run test</code>、<code>npm run lint</code>、<code>npm run build</code> 通过。</li>
+<li>桌面和 375px 宽度完成输入、生成、切换、互动、保存、刷新恢复和异常回退。</li>
+<li>模型 API、Promptfoo、访谈和无引导测试完成后，保存原始记录、去标识化摘要及复盘；没有这些记录不得声称已验证效果。</li>
+</ul>
+</article></body></html>

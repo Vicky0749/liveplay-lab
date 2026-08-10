@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>运行、操作与发布手册</title><style>
+:root{font-family:"Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;color:#192824;background:#eff3f0}*{box-sizing:border-box}body{margin:0}.document{max-width:980px;margin:32px auto 56px;padding:34px 44px;background:#fff;box-shadow:0 12px 32px #173c2920}h1{font-size:28px;color:#1e6f55;margin:0 0 20px;border-bottom:2px solid #b8dbc4;padding-bottom:12px}h2{font-size:19px;color:#1e6f55;margin:25px 0 8px}h3{font-size:15px;margin:18px 0 6px}p,li,td,th{font-size:13px;line-height:1.58}p{margin:4px 0 8px}ul,ol{margin:4px 0 9px;padding-left:23px}li{margin:2px 0}table{width:100%;border-collapse:collapse;margin:10px 0 15px}th,td{border:1px solid #cdd9d1;padding:6px 8px;text-align:left;vertical-align:top}th{background:#e8f3ec}code{font-family:Consolas,monospace;background:#edf2ef;padding:1px 4px;border-radius:3px;font-size:12px}pre{overflow:auto;padding:12px;background:#172825;color:#edf7f1;border-radius:5px;line-height:1.45}blockquote{margin:10px 0;padding:8px 12px;border-left:3px solid #e9b94f;background:#fff9e9;color:#634f29}@media(max-width:650px){.document{margin:0;padding:22px 17px;box-shadow:none}h1{font-size:23px}p,li,td,th{font-size:12px}table{display:block;overflow:auto;white-space:nowrap}}</style></head><body><article class="document"><h1>运行、操作与发布手册</h1>
+<h2>1. 环境</h2>
+<ul>
+<li>Node.js 20+（推荐当前 LTS）。</li>
+<li>npm 10+。</li>
+<li>可选：任意 OpenAI-compatible chat completions API。</li>
+<li>可选：Promptfoo 用于真实模型回归。</li>
+</ul>
+<h2>2. 首次启动</h2>
+<pre><code class="language-powershell">cd D:\VSCODE\project\liveplay-lab
+npm install
+npm run dev
+</code></pre>
+<p>浏览器打开终端输出的地址，通常为 <code>http://localhost:5173</code>。首次运行直接使用“本地方案”，无需 API Key。</p>
+<h2>3. 主路径操作</h2>
+<ol>
+<li>进入“玩法工作台”，输入主题、本场目标、目标观众、预计时长和资源边界。</li>
+<li>选择“关键词拼图 / 限时真知题 / 任务接力赛”之一。先看色条和规则摘要确认已选中。</li>
+<li>选择“本地方案”，点击“生成可运行方案”。检查候选方案是否包含规则、口播、实现 Brief 和风险点。</li>
+<li>点击右侧微应用的主操作；确认反馈出现，重复点击不能重复记分或重复提交。</li>
+<li>点击“保存 Remix”，到“模板与 Remix”确认刷新后仍可以载入。</li>
+<li>复制规则、口播或视觉提示词，粘贴到文档或 Coding Agent 中进行下一轮工作。</li>
+</ol>
+<h2>4. 接入真实模型 API</h2>
+<p><strong>界面临时配置：</strong> 点击右上“模型 API”，启用“使用模型方案”，输入兼容端点、模型名与 Key。Key 只在浏览器内存中存在到页面关闭或刷新，不会写入 localStorage。</p>
+<p><strong>本机 <code>.env</code> 配置：</strong></p>
+<pre><code class="language-powershell">Copy-Item .env.example .env
+# 编辑 .env：LLM_BASE_URL、LLM_API_KEY、LLM_MODEL
+npm run server
+</code></pre>
+<p>前端生成时访问 <code>http://localhost:8788/api/generate</code>。本机代理不会记录 Key；请勿在浏览器控制台、截图、Issue、Git commit 或 README 中粘贴真实密钥。</p>
+<h3>失败排查</h3>
+<table>
+<thead>
+<tr>
+<th>现象</th>
+<th>检查顺序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>“模型调用未完成”</td>
+<td>先确认 <code>npm run server</code> 正在运行，再检查 Base URL 和模型名</td>
+</tr>
+<tr>
+<td>401/403</td>
+<td>确认 Key 权限和厂商账户状态；不要把 Key 发到聊天或仓库</td>
+</tr>
+<tr>
+<td>返回非 JSON</td>
+<td>选择支持 JSON 输出的模型，或检查上游对 <code>response_format</code> 的兼容性</td>
+</tr>
+<tr>
+<td>CORS/端口错误</td>
+<td>前端保持 Vite 默认 <code>5173</code>；代理保持 <code>8788</code>；不要直接从前端请求外部 Key</td>
+</tr>
+</tbody></table>
+<h2>5. 测试与验收</h2>
+<pre><code class="language-powershell">npm run test
+npm run lint
+npm run build
+</code></pre>
+<p>浏览器验收至少覆盖：</p>
+<ul>
+<li>Desktop：选模板、编辑 Brief、本地生成、微应用交互、复制、Remix 保存与刷新恢复。</li>
+<li>Mobile 375px：导航、字段输入、主按钮、微应用不横向溢出。</li>
+<li>失败路径：空主题、未启服务的模型模式、无 Key、模型返回不完整字段。</li>
+</ul>
+<h2>6. Promptfoo 执行</h2>
+<pre><code class="language-powershell">$env:OPENAI_API_KEY = &#39;...&#39;
+$env:OPENAI_BASE_URL = &#39;https://provider.example/v1&#39;
+npx promptfoo@latest eval -c evals/promptfooconfig.yaml
+</code></pre>
+<p>每次运行必须在记录中写明：执行日期、模型、Base URL（可脱敏）、提示版本、评审规则、成本、原始输出位置、失败编码、人工复核人。不要只截取“好看的”样例。</p>
+<h2>7. 真实研究执行</h2>
+<ol>
+<li>使用 <code>docs/03-research-package.md</code> 招募 R01-R05 和 U01-U05。</li>
+<li>获得同意后，再开始访谈或录屏；原始笔记放在不提交 Git 的受控目录。</li>
+<li>每次无引导测试使用 <code>docs/09-user-test-template.md</code>，观察员前 10 分钟不提示。</li>
+<li>整理去标识化结论时，区分原话、观察事实和解释；5 个样本不推导总体结论。</li>
+<li>把真实证据映射到 V2 backlog，并在回归完成后更新产品状态。</li>
+</ol>
+<h2>8. 发布前检查</h2>
+<ul>
+<li><input disabled="" type="checkbox"> <code>.env</code>、录屏原文件、用户可识别信息不在 Git 暂存区。</li>
+<li><input disabled="" type="checkbox"> 四项测试通过，且浏览器桌面/手机截图已检查。</li>
+<li><input disabled="" type="checkbox"> README 的功能、边界和状态与源码一致。</li>
+<li><input disabled="" type="checkbox"> 若声称“V2”或“研究发现”，有对应真实记录和日期。</li>
+<li><input disabled="" type="checkbox"> 录制演示前清空 API Key 字段，并确认没有个人账号/联系人出镜。</li>
+</ul>
+</article></body></html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>作品集案例｜LivePlay Lab</title><style>
+:root{font-family:"Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;color:#192824;background:#eff3f0}*{box-sizing:border-box}body{margin:0}.document{max-width:980px;margin:32px auto 56px;padding:34px 44px;background:#fff;box-shadow:0 12px 32px #173c2920}h1{font-size:28px;color:#1e6f55;margin:0 0 20px;border-bottom:2px solid #b8dbc4;padding-bottom:12px}h2{font-size:19px;color:#1e6f55;margin:25px 0 8px}h3{font-size:15px;margin:18px 0 6px}p,li,td,th{font-size:13px;line-height:1.58}p{margin:4px 0 8px}ul,ol{margin:4px 0 9px;padding-left:23px}li{margin:2px 0}table{width:100%;border-collapse:collapse;margin:10px 0 15px}th,td{border:1px solid #cdd9d1;padding:6px 8px;text-align:left;vertical-align:top}th{background:#e8f3ec}code{font-family:Consolas,monospace;background:#edf2ef;padding:1px 4px;border-radius:3px;font-size:12px}pre{overflow:auto;padding:12px;background:#172825;color:#edf7f1;border-radius:5px;line-height:1.45}blockquote{margin:10px 0;padding:8px 12px;border-left:3px solid #e9b94f;background:#fff9e9;color:#634f29}@media(max-width:650px){.document{margin:0;padding:22px 17px;box-shadow:none}h1{font-size:23px}p,li,td,th{font-size:12px}table{display:block;overflow:auto;white-space:nowrap}}</style></head><body><article class="document"><h1>作品集案例｜LivePlay Lab</h1>
+<h2>标题</h2>
+<p><strong>LivePlay Lab：把直播互动玩法转成可运行 AI 轻应用，并用 50 条任务评测 Coding Agent 的可靠性</strong></p>
+<h2>一句话简介</h2>
+<p>我设计并实现了一个面向直播与校园活动组织者的浏览器工作台。用户把活动主题、目标、受众、时长和资源边界写成 Brief，选择玩法模板后，可以得到可编辑的规则、主持人口播、Coding Agent 实现 Brief 和一个可点击微应用。产品同时提供 Remix 库、Promptfoo 评测集以及用户研究记录工具。</p>
+<h2>背景与判断</h2>
+<p>我观察到 AI 做活动策划时容易生成看似完整但无法直接运行的内容：它可能忽略时长和人力，没定义互动状态，也没有异常与安全边界。另一个问题是，产品/原型岗位不仅需要“能做 Demo”，还需要说明 Coding Agent 失败在何处、如何回归。</p>
+<p>因此我把首版产品定义为四层：</p>
+<ol>
+<li><strong>规则层：</strong> 三种可复用模板，每条规则都包含触发、动作、反馈和边界。</li>
+<li><strong>体验层：</strong> 在浏览器中展示可点击的互动状态，验证用户能看见一次性提交和即时反馈。</li>
+<li><strong>可靠性层：</strong> 50 条任务按需求理解、代码生成、自验证、安全体验分类，避免只评价“文案好不好”。</li>
+<li><strong>证据层：</strong> 用研究操作包收集真实访谈和无引导测试，并明确不把计划写成数据。</li>
+</ol>
+<h2>我做了什么</h2>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>主要产出</th>
+<th>我的关键决策</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>问题界定</td>
+<td>产品概览、用户故事、非目标</td>
+<td>不接真实平台 API，先验证玩法和 Agent 产物的闭环</td>
+</tr>
+<tr>
+<td>规则设计</td>
+<td>拼图、真知题、接力赛三模板</td>
+<td>将“好玩”拆成低门槛参与、明确反馈、可控节奏</td>
+</tr>
+<tr>
+<td>原型实现</td>
+<td>React 三栏工作台、本地生成器、微应用状态</td>
+<td>默认离线可跑，API 失败也保留可演示草案</td>
+</tr>
+<tr>
+<td>模型能力</td>
+<td>本机 OpenAI-compatible 代理</td>
+<td>API Key 仅在会话/本机 <code>.env</code> 中，不保存或提交</td>
+</tr>
+<tr>
+<td>质量评测</td>
+<td>50 条 Promptfoo 用例与失败分类</td>
+<td>把虚构证据、密钥泄露、仿冒平台也作为失败类型</td>
+</tr>
+<tr>
+<td>研究设计</td>
+<td>招募、访谈、无引导任务、观察表</td>
+<td>真实研究未完成时保留待执行，不写假样本</td>
+</tr>
+</tbody></table>
+<h2>核心流程</h2>
+<pre><code class="language-mermaid">flowchart LR
+  A[填写 Brief] --&gt; B[选择模板]
+  B --&gt; C[本地生成 / 模型 API]
+  C --&gt; D[规则、口播、代码 Brief]
+  D --&gt; E[可点击微应用]
+  D --&gt; F[保存 Remix]
+  C --&gt; G[50 条评测]
+  E --&gt; H[真实研究]
+  G --&gt; I[V2 迭代]
+  H --&gt; I
+</code></pre>
+<h2>设计细节</h2>
+<ul>
+<li><strong>可控而非纯生成：</strong> 先选模板后生成，用户可以通过时长、人力和边界控制方案。模板的规则是可见的，候选方案也支持复制和 Remix。</li>
+<li><strong>真实可运行：</strong> 右侧微应用不是图片。真知题会锁定作答；其他模板会反馈已参与并推进展示进度。</li>
+<li><strong>失败可见：</strong> 模型服务不可用时，界面不会显示“生成成功”，而是回退到明确标识的本地草案。</li>
+<li><strong>安全作为产品需求：</strong> Key 不进 localStorage；不收集真实用户数据；所有演示皮肤是中性原创视觉，不暗示平台接入。</li>
+</ul>
+<h2>结果与当前证据</h2>
+<p><strong>已可复审：</strong> 可运行源码、三模板、本地生成与 API 代理实现、单元测试、50 条评测配置、研究操作包、演示脚本。</p>
+<p><strong>待执行：</strong> 5 位有直播/活动组织经验者的访谈、5 位新用户的无引导测试、真实模型的 Promptfoo 运行、V2 对比数据和最终录屏。完成前我不会在项目中填写通过率、完成率或“提升”数字。</p>
+<h2>下一步</h2>
+<ol>
+<li>按研究包完成 5+5 人研究并把失败点编码。</li>
+<li>用真实模型跑完 50 条评测，优先修复 ST 与主路径中的严重 RQ/CG/SV 问题。</li>
+<li>基于证据收敛 V2，录制包含主路径和失败回退的五分钟演示。</li>
+</ol>
+</article></body></html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>五分钟演示录屏脚本</title><style>
+:root{font-family:"Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;color:#192824;background:#eff3f0}*{box-sizing:border-box}body{margin:0}.document{max-width:980px;margin:32px auto 56px;padding:34px 44px;background:#fff;box-shadow:0 12px 32px #173c2920}h1{font-size:28px;color:#1e6f55;margin:0 0 20px;border-bottom:2px solid #b8dbc4;padding-bottom:12px}h2{font-size:19px;color:#1e6f55;margin:25px 0 8px}h3{font-size:15px;margin:18px 0 6px}p,li,td,th{font-size:13px;line-height:1.58}p{margin:4px 0 8px}ul,ol{margin:4px 0 9px;padding-left:23px}li{margin:2px 0}table{width:100%;border-collapse:collapse;margin:10px 0 15px}th,td{border:1px solid #cdd9d1;padding:6px 8px;text-align:left;vertical-align:top}th{background:#e8f3ec}code{font-family:Consolas,monospace;background:#edf2ef;padding:1px 4px;border-radius:3px;font-size:12px}pre{overflow:auto;padding:12px;background:#172825;color:#edf7f1;border-radius:5px;line-height:1.45}blockquote{margin:10px 0;padding:8px 12px;border-left:3px solid #e9b94f;background:#fff9e9;color:#634f29}@media(max-width:650px){.document{margin:0;padding:22px 17px;box-shadow:none}h1{font-size:23px}p,li,td,th{font-size:12px}table{display:block;overflow:auto;white-space:nowrap}}</style></head><body><article class="document"><h1>五分钟演示录屏脚本</h1>
+<p><strong>录制前：</strong> 清空 Key 字段；关闭任何个人聊天/账号；将浏览器缩放为 100%；准备 Desktop 与 375px 两个窗口；确认当前素材均为演示数据。</p>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>画面与操作</th>
+<th>旁白重点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0:00-0:25</td>
+<td>打开玩法工作台，停留在三栏全貌</td>
+<td>“这是 LivePlay Lab：把互动 Brief 变成浏览器微应用，并把 Agent 质量放进可复跑评测。”</td>
+</tr>
+<tr>
+<td>0:25-1:05</td>
+<td>编辑主题、目标、受众、时长和边界</td>
+<td>“我先写清时间、人力和不接真实平台数据这些边界；这一步避免生成器把假设当事实。”</td>
+</tr>
+<tr>
+<td>1:05-1:35</td>
+<td>切换三个模板，解释色条和规则</td>
+<td>“我把玩法做成三套规则系统，而不是三段文案：拼图、真知题、接力赛各有不同参与动作和反馈。”</td>
+</tr>
+<tr>
+<td>1:35-2:10</td>
+<td>选择本地方案并生成</td>
+<td>“默认不需要 Key。本地生成器输出规则、主持人口播、实现 Brief 和风险点，因此可用于快速原型讨论。”</td>
+</tr>
+<tr>
+<td>2:10-2:45</td>
+<td>点击微应用主按钮；切到真知题，再点击真/假</td>
+<td>“右边不是静态卡片。作答会锁定，防止重复提交；这也是 Coding Agent 需要验证的状态要求。”</td>
+</tr>
+<tr>
+<td>2:45-3:10</td>
+<td>保存 Remix，到模板页刷新或载入</td>
+<td>“可保留活动组织者改过的规则变体；只保存规则和来源，不保存密钥或用户信息。”</td>
+</tr>
+<tr>
+<td>3:10-3:45</td>
+<td>展示模型 API 弹窗，不输入真实 Key</td>
+<td>“支持任意 OpenAI-compatible API，但 Key 只保留在当前会话或本机 <code>.env</code>，并由本机代理调用。”</td>
+</tr>
+<tr>
+<td>3:45-4:25</td>
+<td>打开评测页、按分组筛选、标记一个人工复核</td>
+<td>“50 条任务覆盖需求理解、代码生成、自验证、安全与体验。这里的复核标记不是通过率，真实模型运行后才有结论。”</td>
+</tr>
+<tr>
+<td>4:25-4:50</td>
+<td>打开用户研究页</td>
+<td>“这里预留了 5 个访谈和 5 个无引导测试位置，并明确待执行。作品集不使用虚构的访谈和数据。”</td>
+</tr>
+<tr>
+<td>4:50-5:00</td>
+<td>打开证据材料页</td>
+<td>“所有 PRD、流程、研究、评测和工作日志可回溯到源码。下一步是执行真实研究和评测，再基于失败证据发布 V2。”</td>
+</tr>
+</tbody></table>
+<h2>录制验收</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 录屏中无 API Key、账号、联系人、浏览器历史或未经同意的人脸/声音。</li>
+<li><input disabled="" type="checkbox"> 至少演示一次可交互成功与一次模型模式失败回退。</li>
+<li><input disabled="" type="checkbox"> 旁白不说“已访谈”“提升”“上线 V2”等没有证据的话。</li>
+<li><input disabled="" type="checkbox"> 上传视频后记录链接、日期、源码 commit、环境与是否含真实测试证据。</li>
+</ul>
+</article></body></html>
