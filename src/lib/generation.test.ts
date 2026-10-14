@@ -19,4 +19,43 @@ describe('generation', () => {
     expect(plan.rules).toEqual(fallback.rules);
     expect(plan.riskNotes).toEqual(fallback.riskNotes);
   });
+
+  it('does not crash on malformed model output and falls back field by field', () => {
+    const fallback = createLocalPlan(brief, templates[2]);
+    const plan = planFromApi({ title: 42, summary: { text: 'x' }, rules: [{ a: 1 }, 7, null], hostScript: '   ', riskNotes: 'not a list', codeBrief: ['x'] }, fallback);
+    expect(plan.title).toBe(fallback.title);
+    expect(plan.summary).toBe(fallback.summary);
+    expect(plan.rules).toEqual(fallback.rules);
+    expect(plan.hostScript).toBe(fallback.hostScript);
+    expect(plan.riskNotes).toEqual(fallback.riskNotes);
+    expect(plan.codeBrief).toBe(fallback.codeBrief);
+    expect(plan.source).toBe('api');
+  });
+
+  it('accepts null or undefined payloads', () => {
+    const fallback = createLocalPlan(brief, templates[0]);
+    expect(planFromApi(null, fallback).title).toBe(fallback.title);
+    expect(planFromApi(undefined, fallback).rules).toEqual(fallback.rules);
+  });
+
+  it('trims strings, drops blank or non-string list items, and bounds list length', () => {
+    const fallback = createLocalPlan(brief, templates[0]);
+    const manyRules = Array.from({ length: 40 }, (_, index) => `规则 ${index + 1}`);
+    const plan = planFromApi({ title: '  新方案  ', rules: ['  一  ', '', 5, '二'] }, fallback);
+    expect(plan.title).toBe('新方案');
+    expect(plan.rules).toEqual(['一', '二']);
+    expect(planFromApi({ rules: manyRules }, fallback).rules).toHaveLength(20);
+  });
+
+  it('bounds absurdly long text so one response cannot blow up the layout', () => {
+    const fallback = createLocalPlan(brief, templates[0]);
+    expect(planFromApi({ summary: 'x'.repeat(50_000), title: 't'.repeat(5_000) }, fallback).summary).toHaveLength(4000);
+    expect(planFromApi({ title: 't'.repeat(5_000) }, fallback).title).toHaveLength(200);
+  });
+
+  it('falls back to defaults for an empty brief', () => {
+    const plan = createLocalPlan({ theme: '  ', objective: '', audience: '', duration: '', constraints: '' }, templates[0]);
+    expect(plan.title).toContain('校园游戏夜');
+    expect(plan.riskNotes).toHaveLength(3);
+  });
 });

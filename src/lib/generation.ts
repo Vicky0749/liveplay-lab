@@ -3,6 +3,21 @@ import type { Brief, PlayPlan, PlayTemplate } from '../types';
 
 const clean = (value: string, fallback: string) => value.trim() || fallback;
 
+/** Model output is untrusted: accept a field only when it is a non-empty string, and bound its length. */
+const textField = (value: unknown, fallback: string, max = 4000) =>
+  typeof value === 'string' && value.trim() ? value.trim().slice(0, max) : fallback;
+
+/** Keep only non-empty strings. A model may return objects or numbers, which would crash rendering. */
+const listField = (value: unknown, fallback: string[], maxItems = 20) => {
+  if (!Array.isArray(value)) return fallback;
+  const items = value
+    .filter((item): item is string => typeof item === 'string')
+    .map((item) => item.trim().slice(0, 1000))
+    .filter(Boolean)
+    .slice(0, maxItems);
+  return items.length ? items : fallback;
+};
+
 export function createLocalPlan(brief: Brief, template: PlayTemplate): PlayPlan {
   const theme = clean(brief.theme, '校园游戏夜');
   const objective = clean(brief.objective, '提高有效互动参与');
@@ -26,15 +41,17 @@ export function createLocalPlan(brief: Brief, template: PlayTemplate): PlayPlan 
   };
 }
 
-export function planFromApi(payload: Partial<PlayPlan>, fallback: PlayPlan): PlayPlan {
+/** Merge an untrusted API payload over the local fallback; any missing or malformed field falls back. */
+export function planFromApi(payload: Partial<Record<keyof PlayPlan, unknown>> | null | undefined, fallback: PlayPlan): PlayPlan {
+  const data = payload ?? {};
   return {
-    title: clean(payload.title ?? '', fallback.title),
-    summary: clean(payload.summary ?? '', fallback.summary),
-    rules: Array.isArray(payload.rules) && payload.rules.length ? payload.rules.filter(Boolean) : fallback.rules,
-    hostScript: clean(payload.hostScript ?? '', fallback.hostScript),
-    visualPrompt: clean(payload.visualPrompt ?? '', fallback.visualPrompt),
-    riskNotes: Array.isArray(payload.riskNotes) && payload.riskNotes.length ? payload.riskNotes.filter(Boolean) : fallback.riskNotes,
-    codeBrief: clean(payload.codeBrief ?? '', fallback.codeBrief),
+    title: textField(data.title, fallback.title, 200),
+    summary: textField(data.summary, fallback.summary),
+    rules: listField(data.rules, fallback.rules),
+    hostScript: textField(data.hostScript, fallback.hostScript),
+    visualPrompt: textField(data.visualPrompt, fallback.visualPrompt),
+    riskNotes: listField(data.riskNotes, fallback.riskNotes),
+    codeBrief: textField(data.codeBrief, fallback.codeBrief),
     source: 'api',
   };
 }
