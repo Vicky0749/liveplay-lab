@@ -50,7 +50,9 @@ flowchart LR
 
 ## 快速开始
 
-```powershell
+需要 Node.js 20.19+ 或 22.12+。
+
+```bash
 npm install
 npm run dev
 ```
@@ -59,21 +61,49 @@ npm run dev
 
 ### 使用真实模型 API
 
-```powershell
-Copy-Item .env.example .env
+```bash
+cp .env.example .env        # Windows PowerShell: Copy-Item .env.example .env
 # 编辑 .env，填写兼容端点、模型名和 API Key
 npm run server
 ```
 
 在网页右上角“模型 API”中启用“使用模型方案”。密钥只用于当前调用；不要提交 `.env`。
 
+本机代理（`server/index.mjs`）只监听 `127.0.0.1:8788`，并做了这些保护：
+
+- 只接受来自 `localhost` / `127.0.0.1` 页面的浏览器请求，其他网站无法借你的浏览器触发生成、消耗 `.env` 里的 Key；请求必须是 `application/json`。
+- 请求体上限 1 MB；上游默认 60 秒超时（可用 `LLM_TIMEOUT_MS` 调整），超时返回 504。
+- 上游不支持 `response_format` 时自动去掉该参数重试一次，兼容更多 OpenAI 兼容端点。
+- 模型返回的字段会在前端逐项校验，格式不对的字段回退到本地方案，不会让页面崩溃。
+
+前端默认请求 `http://localhost:8788`；代理端口不同时，在 `.env` 里设置 `VITE_API_BASE`（例如 `VITE_API_BASE=http://localhost:9000`）后重启 `npm run dev`。
+
 ### 质量检查
 
-```powershell
-npm run test
+```bash
+npm run test    # 单元测试：生成逻辑、本机存储、代理服务、评测集一致性
 npm run lint
-npm run build
+npm run build   # 含 tsc 类型检查，并重新生成 public/docs
 ```
+
+GitHub Actions（`.github/workflows/ci.yml`）会在每次 push 和 Pull Request 上用 Node 20 与 22 依次运行 lint、test、build。
+
+## 项目结构
+
+```text
+src/                 前端（React + Vite）
+  App.tsx            工作台、模板、评测、研究、材料五个视图
+  data.ts            3 个玩法模板与 50 条评测用例（界面展示的数据源）
+  lib/generation.ts  本地方案生成与模型输出校验
+  lib/storage.ts     Remix / 复核记录的本机存储（带校验和降级）
+server/              本机模型代理（Node，无第三方依赖）
+evals/               Promptfoo 配置与提示词
+docs/                作品集与研究文档（源文件）
+public/docs/         由 `npm run prepare:docs` 自动生成的网页版，勿手改
+tests/               跨文件的一致性测试
+```
+
+> `src/data.ts` 与 `evals/promptfooconfig.yaml` 必须保持同步；`tests/evals-sync.test.ts` 会在两者不一致时失败。
 
 ## 评测与研究
 

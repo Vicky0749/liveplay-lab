@@ -23,6 +23,13 @@ export type PlayPlan = {
   source: 'local' | 'api';
 };
 
+export type Remix = {
+  id: string;
+  name: string;
+  templateId: TemplateId;
+  rules: string[];
+};
+
 export type Brief = {
   theme: string;
   objective: string;

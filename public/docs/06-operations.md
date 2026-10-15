@@ -2,7 +2,7 @@
 
 ## 1. 环境
 
-- Node.js 20+（推荐当前 LTS）。
+- Node.js 20.19+ 或 22.12+（推荐当前 LTS；这是 Vite 8 的最低要求）。
 - npm 10+。
 - 可选：任意 OpenAI-compatible chat completions API。
 - 可选：Promptfoo 用于真实模型回归。
