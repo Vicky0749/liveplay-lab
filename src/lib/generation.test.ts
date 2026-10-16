@@ -12,6 +12,14 @@ describe('generation', () => {
     expect(plan.source).toBe('local');
   });
 
+  it('falls back to default copy when brief fields are blank', () => {
+    const blank = { theme: '  ', objective: '', audience: '\n', duration: '', constraints: ' ' };
+    const plan = createLocalPlan(blank, templates[2]);
+    expect(plan.title).toBe(`校园游戏夜｜${templates[2].name}`);
+    expect(plan.summary).toContain('15 分钟');
+    expect(plan.riskNotes[1]).toContain('主持人 1 人');
+  });
+
   it('keeps a valid fallback when an API output is partial', () => {
     const fallback = createLocalPlan(brief, templates[1]);
     const plan = planFromApi({ title: '模型方案', rules: [] }, fallback);
